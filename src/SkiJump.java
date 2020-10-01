@@ -7,6 +7,9 @@ public class SkiJump {
     //Constructor
     public SkiJump(String name, String place, int kPoint, int hSize){
         setName(name);
+        setPlace(place);
+        setkPoint(kPoint);
+        sethSize(hSize);
     }
 
     //Getter and Setter
