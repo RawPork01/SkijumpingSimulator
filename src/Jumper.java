@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Jumper {
     private String name;
     private int age;
@@ -14,6 +16,24 @@ public class Jumper {
         setJumpStrength(jumpStrength);
         setTiming(timing);
         setLanding(landing);
+    }
+
+    public Jumper(){}
+
+    public float jumps(SkiJump skiJump){
+        Random r = new Random();
+        float wind = (float)r.nextFloat()*6-3;
+
+        float hSize = skiJump.gethSize();
+        float kPoint = skiJump.getkPoint();
+        float jumpScore, jumpMeter, windMeter, scoreMeter;
+
+        jumpScore = (((float)this.speed/20)+((float)this.jumpStrength/20))*(float)this.timing/10;
+        jumpMeter = (float)(((2*jumpScore)-1)*hSize*0.1);
+        windMeter = wind*((hSize-32)/20);
+        scoreMeter = kPoint + windMeter + jumpMeter;
+
+        return scoreMeter;
     }
 
     //Getter and Setter

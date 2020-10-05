@@ -12,6 +12,8 @@ public class SkiJump {
         sethSize(hSize);
     }
 
+    public SkiJump(){}
+
     //Getter and Setter
     public String getName() {
         return name;
