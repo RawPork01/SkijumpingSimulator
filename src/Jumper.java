@@ -7,8 +7,9 @@ public class Jumper {
     private int jumpStrength;
     private int timing;
     private int landing;
+    private int score;
 
-    //Constructor
+    //Constructors
     public Jumper(String name, int age, int speed, int jumpStrength, int timing, int landing){
         setName(name);
         setAge(age);
@@ -20,20 +21,47 @@ public class Jumper {
 
     public Jumper(){}
 
+    //Methods
     public float jumps(SkiJump skiJump){
         Random r = new Random();
-        float wind = (float)r.nextFloat()*6-3;
+        float wind = r.nextFloat()*6-3;
+        int speedVariance = r.nextInt(3);
+        int jumpStrengthVariance = r.nextInt(3);
+        int timingVariance = r.nextInt(3);
+
+        int landingDifficulty;
 
         float hSize = skiJump.gethSize();
         float kPoint = skiJump.getkPoint();
         float jumpScore, jumpMeter, windMeter, scoreMeter;
 
-        jumpScore = (((float)this.speed/20)+((float)this.jumpStrength/20))*(float)this.timing/10;
-        jumpMeter = (float)(((2*jumpScore)-1)*hSize*0.1);
-        windMeter = wind*((hSize-32)/20);
-        scoreMeter = kPoint + windMeter + jumpMeter;
+        float speed = this.speed - speedVariance;
+        float jumpStrength = this.jumpStrength - jumpStrengthVariance;
+        float timing = this.timing - timingVariance;
+        int landing = this.landing;
 
-        return scoreMeter;
+        jumpScore = ((speed/20)+(jumpStrength/20))*timing/10;
+        //System.out.println("Jump Score: " + jumpScore);
+
+        jumpMeter = (float)(((2*jumpScore)-1)*hSize*0.1);
+        //System.out.println("Jump Meter: " + jumpMeter);
+
+        windMeter = wind*((hSize-32)/20);
+        //System.out.println("Wind Meter: " + windMeter);
+
+        scoreMeter = kPoint + windMeter + jumpMeter;
+        //System.out.println("KPoint: " + kPoint);
+        //System.out.println("Score Meter: " + scoreMeter);
+
+        landingDifficulty = (int)Math.round((Math.tanh((((scoreMeter/hSize)/1.3)*5)-3)+1)*5);
+        //System.out.println(landingDifficulty);
+
+        if (landingDifficulty <= landing){
+            return Math.round(scoreMeter);
+        }
+        else{
+            return 0;
+        }
     }
 
     //Getter and Setter
@@ -107,5 +135,13 @@ public class Jumper {
         else{
             throw new IllegalArgumentException("Landing must be between 1 and 10!");
         }
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
